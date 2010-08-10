@@ -1,0 +1,32 @@
+---
+abstract: 'MongoDB based session store for Plack apps.'
+author:
+  - 'Ido Perlmuter <ido@ido50.net>'
+build_requires:
+  Plack::Middleware::Session: 0
+  Plack::Request: 0
+  Plack::Session: 0
+  Plack::Session::State::Cookie: 0
+  Test::Exception: 0
+  Test::More: 0
+  t::lib::TestSessionHash: 0
+configure_requires:
+  ExtUtils::MakeMaker: 6.31
+dynamic_config: 0
+generated_by: 'Dist::Zilla version 4.101900, CPAN::Meta::Converter version 2.102160'
+license: perl
+meta-spec:
+  url: http://module-build.sourceforge.net/META-spec-v1.4.html
+  version: 1.4
+name: Plack-Session-Store-MongoDB
+requires:
+  Carp: 0
+  MongoDB: 0
+  Plack::Session::Store: 0
+  Plack::Util::Accessor: 0
+  parent: 0
+  perl: 5.006
+resources:
+  homepage: http://github.com/ido50/Plack-Session-Store-MongoDB/tree
+  repository: git://github.com/ido50/Plack-Session-Store-MongoDB.git
+version: 0.1
