@@ -17,8 +17,7 @@ my %WriteMakefileArgs = (
     'Plack::Session' => '0',
     'Plack::Session::State::Cookie' => '0',
     'Test::Exception' => '0',
-    'Test::More' => '0',
-    't::lib::TestSessionHash' => '0'
+    'Test::More' => '0'
   },
   'CONFIGURE_REQUIRES' => {
     'ExtUtils::MakeMaker' => '6.31'
@@ -34,7 +33,7 @@ my %WriteMakefileArgs = (
     'Plack::Util::Accessor' => '0',
     'parent' => '0'
   },
-  'VERSION' => '0.1',
+  'VERSION' => '0.2',
   'test' => {
     'TESTS' => 't/*.t'
   }

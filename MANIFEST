@@ -10,8 +10,8 @@ dist.ini
 lib/Plack/Session/Store/MongoDB.pm
 t/00-load.t
 t/01-simple.t
-t/lib/TestSession.pm
-t/lib/TestSessionHash.pm
+t/TestSession.pm
+t/TestSessionHash.pm
 t/manifest.t
 t/release-pod-coverage.t
 t/release-pod-syntax.t
