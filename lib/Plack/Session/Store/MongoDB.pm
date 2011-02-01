@@ -1,7 +1,9 @@
 package Plack::Session::Store::MongoDB;
 BEGIN {
-  $Plack::Session::Store::MongoDB::VERSION = '0.2';
+  $Plack::Session::Store::MongoDB::VERSION = '0.3';
 }
+
+# ABSTRACT: MongoDB based session store for Plack apps.
 
 use warnings;
 use strict;
@@ -9,7 +11,7 @@ use parent 'Plack::Session::Store';
 use MongoDB;
 use Carp;
 
-use Plack::Util::Accessor qw/host port db_name coll_name db/;
+use Plack::Util::Accessor qw/coll_name db/;
 
 =head1 NAME
 
@@ -17,7 +19,7 @@ Plack::Session::Store::MongoDB - MongoDB based session store for Plack apps.
 
 =head1 VERSION
 
-version 0.2
+version 0.3
 
 =head1 SYNOPSIS
 
@@ -53,31 +55,36 @@ It requires, of course, a running MongoDB daemon to work with.
 =head2 new( %params )
 
 Creates a new instance of this module. Requires a hash of parameters
-containing 'db_name' with the name of the MongoDB database to use,
-and optionally a 'host' parameter with the hostname of the server where
-the MongoDB daemon is running (will default to 'localhost'), a 'port'
-parameter defining the port where the MongoDB daemon is listening (will
-default to 27017, the default MongoDB port), and a 'coll_name' parameter
-with the name of the collection in which sessions will be stored (will
-default to 'sessions').
+containing 'session_db_name' with the name of the MongoDB database to use
+and any options available by L<MongoDB::Connection>, most probably
+'host' (the hostname of the server where the MongoDB daemon is running,
+defaults to 'localhost') and 'port' (the port where the MongoDB daemon is
+listening, defaults to 27017, the default MongoDB port). You can also
+optionally pass the 'coll_name' parameter, denoting the name of the collection
+in which sessions will be stored (will default to 'sessions').
+
+NOTE: in previous versions, the 'session_db_name' option was called 'db_name'.
+This has been changed since 'db_name' is a MongoDB::Connection option
+that might differ from you session database, and you should be able to
+pass both if you need to.
 
 =cut
 
 sub new {
 	my ($class, %params) = @_;
 
-	croak "You must provide the name of the database to use (parameter 'db_name')."
-		unless $params{db_name};
+	croak "You must provide the name of the database to use (parameter 'session_db_name')."
+		unless $params{session_db_name};
 
-	# default values for parameters
-	$params{host} ||= 'localhost';
-	$params{port} ||= 27017;
-	$params{coll_name} ||= 'sessions';
+	my $db_name = delete $params{session_db_name};
+
+	my $self = {};
+	$self->{coll_name} = delete $params{coll_name} || 'sessions';
 
 	# initiate connection to the MongoDB backend
-	$params{db} = MongoDB::Connection->new(host => $params{host}, port => $params{port})->get_database($params{db_name});
+	$self->{db} = MongoDB::Connection->new(%params)->get_database($db_name);
 
-	return bless \%params, $class;
+	return bless $self, $class;
 }
 
 =head2 fetch( $session_id )
