@@ -2,40 +2,42 @@
 use strict;
 use warnings;
 
-BEGIN { require 5.006; }
+use 5.006;
 
-use ExtUtils::MakeMaker 6.31;
+use ExtUtils::MakeMaker 6.30;
 
 
 
 my %WriteMakefileArgs = (
-  'ABSTRACT' => 'MongoDB based session store for Plack apps.',
-  'AUTHOR' => 'Ido Perlmuter <ido@ido50.net>',
-  'BUILD_REQUIRES' => {
-    'Plack::Middleware::Session' => '0',
-    'Plack::Request' => '0',
-    'Plack::Session' => '0',
-    'Plack::Session::State::Cookie' => '0',
-    'Test::Exception' => '0',
-    'Test::More' => '0'
+  "ABSTRACT" => "MongoDB based session store for Plack apps.",
+  "AUTHOR" => "Ido Perlmuter <ido\@ido50.net>",
+  "BUILD_REQUIRES" => {
+    "Plack::Middleware::Session" => 0,
+    "Plack::Request" => 0,
+    "Plack::Session" => 0,
+    "Plack::Session::State::Cookie" => 0,
+    "Test::Exception" => 0,
+    "Test::More" => 0
   },
-  'CONFIGURE_REQUIRES' => {
-    'ExtUtils::MakeMaker' => '6.31'
+  "CONFIGURE_REQUIRES" => {
+    "ExtUtils::MakeMaker" => "6.30"
   },
-  'DISTNAME' => 'Plack-Session-Store-MongoDB',
-  'EXE_FILES' => [],
-  'LICENSE' => 'perl',
-  'NAME' => 'Plack::Session::Store::MongoDB',
-  'PREREQ_PM' => {
-    'Carp' => '0',
-    'MongoDB' => '0',
-    'Plack::Session::Store' => '0',
-    'Plack::Util::Accessor' => '0',
-    'parent' => '0'
+  "DISTNAME" => "Plack-Session-Store-MongoDB",
+  "EXE_FILES" => [],
+  "LICENSE" => "perl",
+  "NAME" => "Plack::Session::Store::MongoDB",
+  "PREREQ_PM" => {
+    "Carp" => 0,
+    "MongoDB" => 0,
+    "Plack::Session::Store" => 0,
+    "Plack::Util::Accessor" => 0,
+    "parent" => 0,
+    "strict" => 0,
+    "warnings" => 0
   },
-  'VERSION' => '0.3',
-  'test' => {
-    'TESTS' => 't/*.t'
+  "VERSION" => "0.4",
+  "test" => {
+    "TESTS" => "t/*.t"
   }
 );
 

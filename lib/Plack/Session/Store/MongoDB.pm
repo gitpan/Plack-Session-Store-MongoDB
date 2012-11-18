@@ -1,9 +1,9 @@
 package Plack::Session::Store::MongoDB;
-BEGIN {
-  $Plack::Session::Store::MongoDB::VERSION = '0.3';
-}
 
 # ABSTRACT: MongoDB based session store for Plack apps.
+
+our $VERSION = "0.4";
+$VERSION = eval $VERSION;
 
 use warnings;
 use strict;
@@ -19,7 +19,7 @@ Plack::Session::Store::MongoDB - MongoDB based session store for Plack apps.
 
 =head1 VERSION
 
-version 0.3
+version 0.4
 
 =head1 SYNOPSIS
 
@@ -33,12 +33,22 @@ version 0.3
 
 	builder {
 		enable 'Session',
-		store => Plack::Session::Store::MongoDB->new(
-			db_name => 'myapp',
-			coll_name => 'myapp_sessions',	# defaults to 'session'
-			host => 'mongodb.myhost.com',	# defaults to 'localhost'
-			port => 27017			# this is the default
-		);
+			store => Plack::Session::Store::MongoDB->new(
+				session_db_name => 'myapp',
+				coll_name => 'myapp_sessions',	# defaults to 'session'
+				host => 'mongodb.myhost.com',	# defaults to 'localhost'
+				port => 27017			# this is the default
+			);
+		$app;
+	};
+
+	# alternatively, you can just pass a MongoDB::Connection object:
+	builder {
+		enable 'Session',
+			store => Plack::Session::Store::MongoDB->new(
+				session_db_name => 'myapp',
+				conn => MongoDB::Connection->new
+			);
 		$app;
 	};
 
@@ -63,7 +73,11 @@ listening, defaults to 27017, the default MongoDB port). You can also
 optionally pass the 'coll_name' parameter, denoting the name of the collection
 in which sessions will be stored (will default to 'sessions').
 
-NOTE: in previous versions, the 'session_db_name' option was called 'db_name'.
+Alternatively, you can pass a 'conn' parameter and give it an already
+created L<MongoDB::Connection> object. You will still need to pass
+'session_db_name' when doing this.
+
+NOTE: in versions before C<0.3>, the 'session_db_name' option was called 'db_name'.
 This has been changed since 'db_name' is a MongoDB::Connection option
 that might differ from you session database, and you should be able to
 pass both if you need to.
@@ -82,7 +96,11 @@ sub new {
 	$self->{coll_name} = delete $params{coll_name} || 'sessions';
 
 	# initiate connection to the MongoDB backend
-	$self->{db} = MongoDB::Connection->new(%params)->get_database($db_name);
+	if ($params{conn} && $params{conn}->isa('MongoDB::Connection')) {
+		$self->{db} = $params{conn}->get_database($db_name);
+	} else {
+		$self->{db} = MongoDB::Connection->new(%params)->get_database($db_name);
+	}
 
 	return bless $self, $class;
 }
@@ -182,7 +200,7 @@ Tests adapted from the L<Plack::Middleware::Session> distribution.
 
 =head1 LICENSE AND COPYRIGHT
 
-Copyright 2010 Ido Perlmuter.
+Copyright 2010-2012 Ido Perlmuter.
 
 This program is free software; you can redistribute it and/or modify it
 under the terms of either: the GNU General Public License as published

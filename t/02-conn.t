@@ -16,7 +16,7 @@ SKIP: {
 	skip "MongoDB needs to be running for this test.", 1 if $@;
 
 	t::TestSessionHash::run_all_tests(
-		store  => Plack::Session::Store::MongoDB->new(session_db_name => 'plack_test_sessions'),
+		store  => Plack::Session::Store::MongoDB->new(session_db_name => 'plack_test_sessions', conn => $conn),
 		state  => Plack::Session::State->new,
 		env_cb => sub {
 			open my $in, '<', \do { my $d };

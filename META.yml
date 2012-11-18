@@ -10,9 +10,9 @@ build_requires:
   Test::Exception: 0
   Test::More: 0
 configure_requires:
-  ExtUtils::MakeMaker: 6.31
+  ExtUtils::MakeMaker: 6.30
 dynamic_config: 0
-generated_by: 'Dist::Zilla version 4.102343, CPAN::Meta::Converter version 2.102160'
+generated_by: 'Dist::Zilla version 4.300028, CPAN::Meta::Converter version 2.120921'
 license: perl
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.4.html
@@ -25,4 +25,9 @@ requires:
   Plack::Util::Accessor: 0
   parent: 0
   perl: 5.006
-version: 0.3
+  strict: 0
+  warnings: 0
+resources:
+  homepage: https://github.com/ido50/Plack-Session-Store-MongoDB
+  repository: https://github.com/ido50/Plack-Session-Store-MongoDB.git
+version: 0.4
